@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './UserUpdate.module.css';
 import { API_USER_URL } from '../../constants';
+import toast from 'react-hot-toast';
 
-const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
+const UserUpdate = ({ user, onClose, onUpdate }) => {
     const [formData, setFormData] = useState({
+        id: user.id,
         name: user.name || '',
-        age: user.age || 0, // Initialize age to 0
+        age: user.age || 0,
         gender: user.gender || '',
         address: user.address || '',
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+
 
     const validateForm = () => {
         const errors = {};
@@ -28,6 +31,7 @@ const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
         return errors;
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formErrors = validateForm();
@@ -41,21 +45,34 @@ const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put(`${API_USER_URL}/update`, formData, {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}`, Operation: 'UPDATE' },
             });
-            onUpdateSuccess(response.data.user);
-            onClose();
+
+            if (response.status === 200) {
+                toast.success("Profile Updated Successfully", {
+                    position: "top-center"
+                });
+                onUpdate();
+            } else {
+                toast.error("Failed to update profile.", {
+                    position: "top-center"
+                });
+            }
         } catch (error) {
             console.error('Error updating user:', error);
+            toast.error('An error occurred while updating the profile.', {
+                position: "top-center"
+            });
         } finally {
             setLoading(false);
         }
     };
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'age') {
-            setFormData({ ...formData, [name]: Number(value) }); 
+            setFormData({ ...formData, [name]: Number(value) });
         } else {
             setFormData({ ...formData, [name]: value });
         }
@@ -66,6 +83,7 @@ const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
             <div className={styles.modalContent}>
                 <h2>Update User</h2>
                 <form onSubmit={handleSubmit}>
+                    { }
                     <div className={styles.formGroup}>
                         <label>Name:</label>
                         <input
@@ -77,6 +95,7 @@ const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
                         {errors.name && <p className={styles.error}>{errors.name}</p>}
                     </div>
 
+                    { }
                     <div className={styles.formGroup}>
                         <label>Age:</label>
                         <input
@@ -88,17 +107,18 @@ const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
                         {errors.age && <p className={styles.error}>{errors.age}</p>}
                     </div>
 
+                    { }
                     <div className={styles.formGroup}>
                         <label>Gender:</label>
                         <select name="gender" value={formData.gender} onChange={handleChange}>
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <option value="Other">Other</option>
                         </select>
                         {errors.gender && <p className={styles.error}>{errors.gender}</p>}
                     </div>
 
+                    { }
                     <div className={styles.formGroup}>
                         <label>Address:</label>
                         <input
@@ -110,6 +130,7 @@ const UserUpdate = ({ user, onClose, onUpdateSuccess }) => {
                         {errors.address && <p className={styles.error}>{errors.address}</p>}
                     </div>
 
+                    { }
                     <div className={styles.buttonGroup}>
                         <button type="submit" disabled={loading}>
                             {loading ? 'Updating...' : 'Update'}

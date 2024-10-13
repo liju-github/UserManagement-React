@@ -2,7 +2,7 @@
 .uploadContainer {
     width: 150px;
     margin: 16px 0;
-    padding: 16px;
+    padding: 16px 40px;
     border: 1px solid #333;
     border-radius: 8px;
     background-color: #222;
@@ -11,7 +11,7 @@
 
 .uploadButton {
     margin-top: 12px;
-    padding: 8px 12px;
+    padding: 8px 16px;
     border: none;
     border-radius: 5px;
     background-color: #007bff;

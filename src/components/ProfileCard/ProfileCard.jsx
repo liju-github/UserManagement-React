@@ -1,4 +1,3 @@
-// src/components/ProfileCard/ProfileCard.js
 import React from 'react';
 import styles from './ProfileCard.module.css';
 import ProfilePictureUpload from '../ProfilePictureUpload/ProfilePictureUpload';
@@ -6,17 +5,22 @@ import ProfilePictureUpload from '../ProfilePictureUpload/ProfilePictureUpload';
 const ProfileCard = ({ user }) => {
     return (
         <div className={styles.profileCard}>
-            <div className={styles.imagePreview}>
-                <img
-                    src={user.image_url || 'default-avatar.png'}
-                    alt={user.name}
-                    className={styles.profilePicture}
-                />
-                <ProfilePictureUpload />
+            <div className={styles.image}>
+                <div className={styles.imagePreview}>
+                    <img
+                        src={user.image_url || 'default-avatar.png'}
+                        alt={user.name}
+                        className={styles.profilePicture}
+                    />
+                    <ProfilePictureUpload />
+                </div>
             </div>
-            <h2>{user.name}</h2>
             <table className={styles.profileDetails}>
                 <tbody>
+                    <tr>
+                        <td><strong>Name:</strong></td>
+                        <td>{user.name}</td>
+                    </tr>
                     <tr>
                         <td><strong>Email:</strong></td>
                         <td>{user.email}</td>

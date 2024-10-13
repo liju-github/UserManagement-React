@@ -1,0 +1,102 @@
+/* src/styles/fonts.css */
+@font-face {
+    font-family: 'Geist';
+    src: url('/fonts/Geist-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('/fonts/Geist-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('/fonts/Geist-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('/fonts/Geist-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('/fonts/Geist-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+}
+
+/* Add other weights and styles as needed */
+/* src/styles/fonts.css */
+
+/* Geist Mono Regular */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Geist Mono Bold */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Geist Mono SemiBold */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Geist Mono Light */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* Geist Mono Medium */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Geist Mono Thin */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+}
+
+/* Geist Mono UltraBlack */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-UltraBlack.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* Geist Mono UltraLight */
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/fonts/GeistMono-UltraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-style: normal;
+}

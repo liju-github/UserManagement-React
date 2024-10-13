@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginAdmin } from '../../store/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminLogin.module.css';
+import toast from 'react-hot-toast';
 
 const AdminLogin = () => {
     const dispatch = useDispatch();
@@ -16,47 +17,72 @@ const AdminLogin = () => {
         dispatch(loginAdmin({ email, password }))
             .unwrap()
             .then(() => {
-                console.log("admin login successful redirecting")
+                toast.success("Admin Login Successful", {
+                    position: "top-right",
+                });
                 navigate("/admin/dashboard");
             })
             .catch((err) => {
-                console.log(err);
+                let errorMessage = "Admin Login Failed";
+                if (err.response && err.response.status === 401) {
+                    errorMessage = "Incorrect email or password";
+                } else if (err.message === "Network Error") {
+                    errorMessage = "Network error, please try again";
+                } else if (err.response && err.response.status >= 500) {
+                    errorMessage = "Server error, please contact support";
+                }
+                toast.error(errorMessage, {
+                    position: "top-right",
+                });
             });
+
     };
 
     return (
-        <>
-            <a href='/login'>admin login</a>
-            <a href='/signup'>signup</a>
-            <div className={styles.loginContainer}>
-                <h2 className={styles.title}>Admin Login</h2>
-                <form className={styles.form} onSubmit={handleLogin}>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Email:</label>
-                        <input
-                            className={styles.input}
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label className={styles.label}>Password:</label>
-                        <input
-                            className={styles.input}
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button className={styles.button} type="submit" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login'}
+        <div className={styles.container}>
+            <div className={styles.content}>
+                <div className={styles.formContainer}>
+                    <h2 className={styles.title}>Admin Login</h2>
+                    <form onSubmit={handleLogin} className={styles.form}>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="email" className={styles.label}>Email address</label>
+                            <input
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="password" className={styles.label}>Password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={styles.button}
+                        >
+                            {loading ? 'Logging in...' : 'Continue'}
+                        </button>
+                    </form>
+                    <button
+                        onClick={() => navigate("/login")}
+                        className={styles.adminButton}
+                    >
+                        Proceed to User Dashboard
                     </button>
-                </form>
-                {error && <div className={styles.alert}>{error}</div>}
-            </div></>
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,4 +1,3 @@
-// src/App.js
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import './App.css';
@@ -11,6 +10,8 @@ import UserHome from './pages/UserHome/UserHome';
 import ProtectedRoute from './components/ProtectedRoutes';
 import PublicRoute from './components/PublicRoutes';
 import store from './store/store';
+import { Toaster } from 'react-hot-toast';
+
 
 const routeConfig = [
   { path: '/signup', element: <Signup />, isPublic: true },
@@ -45,9 +46,8 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="App">
           <AppRoutes />
-        </div>
+          <Toaster />
       </Router>
     </Provider>
   );

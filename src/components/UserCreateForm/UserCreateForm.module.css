@@ -1,0 +1,119 @@
+.signupContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 32px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #0070f3;
+    outline: none;
+}
+
+.select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230070f3' d='M6 6L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #005bb5;
+}
+
+.button:disabled {
+    background-color: #ccc;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    color: #ff4444;
+    font-size: 12px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.alertSuccess {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.alertError {
+    background-color: #ff4444;
+    color: #fff;
+}
+
+@media (max-width: 480px) {
+    .signupContainer {
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .input,
+    .select,
+    .button {
+        font-size: 16px;
+    }
+}

@@ -93,8 +93,9 @@ const Signup = () => {
 
   return (
     <>
-      <a href='/admin/login'>admin login</a>
-      <a href='/login'>login</a>
+      <button onClick={() => window.location.href = '/admin/login'}>Admin Login</button>
+      <button onClick={() => window.location.href = '/login'}>Login</button>
+
     <div className={styles.signupContainer}>
       <h2 className={styles.title}>Sign Up</h2>
       <form onSubmit={handleSignup} className={styles.form}>

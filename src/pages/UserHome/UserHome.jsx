@@ -4,6 +4,7 @@ import ProfileCard from '../../components/ProfileCard/ProfileCard';
 import UserUpdate from '../../components/UserUpdate/UserUpdate';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfile } from '../../store/auth/authSlice';
+import styles from './UserHome.module.css'; 
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,76 +16,46 @@ const Home = () => {
   }, [dispatch]);
 
   const handleUpdateSuccess = () => {
-    dispatch(fetchUserProfile());
-    setIsModalOpen(false);
+    dispatch(fetchUserProfile()); 
+    setIsModalOpen(false); 
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
 
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (loading) return <p className={styles.loadingMessage}>Loading...</p>;
+  if (error) return <p className={styles.errorMessage}>{error}</p>;
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '100vh',
-      backgroundColor: '#1a1a1a',
-      color: 'white',
-      padding: '20px',
-      boxSizing: 'border-box'
-    }}>
-      <nav style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        gap: '10px',
-        padding: '10px 0'
-      }}>
+    <div className={styles.container}>
+      <nav className={styles.navbar}>
         <button
           onClick={() => setIsModalOpen(true)}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
+          className={styles.updateButton}
         >
           Update User
         </button>
-        <LogoutButton
-        />
+        <LogoutButton className={styles.logoutButton} />
       </nav>
-      <main style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        {user && <ProfileCard user={user} />}
+
+      <main className={styles.mainContent}>
+        {user ? (
+          <ProfileCard user={user} />
+        ) : (
+          <p className={styles.noUserMessage}>User data is not available.</p>
+        )}
       </main>
 
-
       {isModalOpen && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <UserUpdate
-            user={user}
-            onClose={handleModalClose}
-            onUpdateSuccess={handleUpdateSuccess}
-          />
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <UserUpdate
+              user={user}
+              onClose={handleModalClose}
+              onUpdate={handleUpdateSuccess} 
+            />
+          </div>
         </div>
       )}
     </div>

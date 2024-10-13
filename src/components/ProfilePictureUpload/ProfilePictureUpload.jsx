@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadProfilePicture } from '../../store/auth/authSlice';
 import styles from './ProfilePictureUpload.module.css';
+import toast from 'react-hot-toast';
+
 
 const ProfilePictureUpload = () => {
     const dispatch = useDispatch();
     const { loading, error } = useSelector((state) => state.userCrud);
     const [file, setFile] = useState(null);
+
+    const fileInputRef = useRef(null);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -20,10 +24,18 @@ const ProfilePictureUpload = () => {
         if (!file) return;
 
         try {
-            const result = await dispatch(uploadProfilePicture(file)).unwrap();
-            alert('Profile picture uploaded successfully!'); 
+            await dispatch(uploadProfilePicture(file)).unwrap();
+            toast.success('Profile picture uploaded successfully!', {
+                position:"top-center"
+            })
+
+            setFile(null);
+            fileInputRef.current.value = ''; 
         } catch (error) {
-            console.error('Image upload failed:', error);
+            toast.error('Profile picture upload failed!', {
+                position: "top-center"
+            })
+
         }
     };
 
@@ -34,6 +46,7 @@ const ProfilePictureUpload = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
+                    ref={fileInputRef} 
                     required
                 />
                 {file && (

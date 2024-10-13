@@ -1,12 +1,109 @@
-/* src/App.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-@import 'bootstrap/dist/css/bootstrap.min.css';
+/* src/styles/fonts.css */
 
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* Add other weights and styles as needed */
+/* src/styles/fonts.css */
+
+/* Geist Mono Regular */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Geist Mono Bold */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Geist Mono SemiBold */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Geist Mono Light */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Geist Mono Medium */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Geist Mono Thin */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* Geist Mono UltraBlack */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-UltraBlack.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Geist Mono UltraLight */
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-UltraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+}
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: rgb(10, 9, 9);
-  color: white;
-  margin: 0;
-  padding: 0;
+  font-family: "Geist";
+  font-style: "normal";
+  background: white;
 }
