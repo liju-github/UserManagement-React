@@ -12,11 +12,11 @@ const UserList = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1); // Track current page
-    const [itemsPerPage] = useState(10); // Number of items per page
-
-    console.log(users);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
 
     useEffect(() => {
         fetchUsers();
@@ -41,11 +41,26 @@ const UserList = () => {
         setEditingUser(null);
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
-            await dispatch(deleteUser(id));
+    const handleDeleteClick = (user) => {
+        setUserToDelete(user);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (userToDelete) {
+            await dispatch(deleteUser(userToDelete.id));
+            setShowDeleteModal(false);
+            setUserToDelete(null);
             fetchUsers();
+            toast.success('User deleted successfully!', {
+                position: "top-right"
+            });
         }
+    };
+
+    const handleDeleteCancel = () => {
+        setShowDeleteModal(false);
+        setUserToDelete(null);
     };
 
     const handleBlockToggle = async (user) => {
@@ -72,20 +87,16 @@ const UserList = () => {
         }
     };
 
-    // Filtered users based on the search term
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Calculate the slice of users for the current page
     const indexOfLastUser = currentPage * itemsPerPage;
     const indexOfFirstUser = indexOfLastUser - itemsPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-    // Pagination logic: Calculate total pages
     const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
-    // Handle page change
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -131,7 +142,7 @@ const UserList = () => {
                                 </button>
                                 <button
                                     className={styles.deleteButton}
-                                    onClick={() => handleDelete(user.id)}
+                                    onClick={() => handleDeleteClick(user)}
                                 >
                                     Delete
                                 </button>
@@ -147,7 +158,6 @@ const UserList = () => {
                 </tbody>
             </table>
 
-            {/* Pagination controls */}
             <div className={styles.pagination}>
                 <button
                     onClick={() => handlePageChange(currentPage - 1)}
@@ -204,7 +214,32 @@ const UserList = () => {
                     </div>
                 </>
             )}
-
+            {showDeleteModal && (
+                <>
+                    <div className={styles.modalOverlay} onClick={handleDeleteCancel} />
+                    <div className={styles.modal}>
+                        <div className={styles.modalContent}>
+                            <h2>Confirm Delete</h2>
+                            <p>Are you sure you want to delete the user: {userToDelete?.name}?</p>
+                            <p>This action cannot be undone.</p>
+                            <div className={styles.modalActions}>
+                                <button
+                                    className={styles.cancelButton}
+                                    onClick={handleDeleteCancel}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className={styles.confirmDeleteButton}
+                                    onClick={handleDeleteConfirm}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

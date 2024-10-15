@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../store/auth/authSlice';
+import { logout,removeError } from '../../store/auth/authSlice';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '../ConfirmatonModal/ConfirmationModal'; 
 
@@ -13,6 +13,7 @@ const LogoutButton = () => {
 
     const handleLogoutConfirm = () => {
         dispatch(logout());
+        dispatch(removeError());
         toast.success("Logout Successful", {
             position: "top-right",
             duration: 2000
@@ -45,7 +46,6 @@ const LogoutButton = () => {
             >
                 {loading ? 'Logging out...' : 'Logout'}
             </button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
 
             {showModal && (
                 <ConfirmationModal

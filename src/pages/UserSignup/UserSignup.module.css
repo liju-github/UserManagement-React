@@ -1,66 +1,77 @@
-/* src/components/Signup/Signup.module.css */
-.signupContainer {
+.container {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    padding: 30px 20px;
+}
+
+.formContainer {
     width: 100%;
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 32px;
-    background-color: #000;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    box-sizing: border-box;
+    max-width: 380px;
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .title {
     font-size: 24px;
     font-weight: 600;
-    color: #fff;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     text-align: center;
+    color: #1a1a1a;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 16px;
 }
 
-.input,
-.select {
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #333;
-    border-radius: 4px;
-    background-color: #111;
-    color: #fff;
+    padding: 10px 1px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    color: #333;
     font-size: 14px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input:focus,
-.select:focus {
-    border-color: #0070f3;
+.input:focus {
     outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-.select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffffff' d='M6 6L0 0h12z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
+.errorText {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 4px;
 }
 
 .button {
     width: 100%;
-    padding: 12px;
-    background-color: #fff;
-    color: #000;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -68,53 +79,43 @@
 }
 
 .button:hover {
-    background-color: #f1f1f1;
+    background-color: #0056b3;
 }
 
 .button:disabled {
-    background-color: #333;
-    color: #666;
+    background-color: #6c757d;
     cursor: not-allowed;
 }
 
-.errorMessage {
-    color: #ff4444;
-    font-size: 12px;
-    margin-top: -12px;
-    margin-bottom: 12px;
-}
-
-.alert {
-    padding: 12px;
-    border-radius: 4px;
-    margin-top: 16px;
+.adminButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
     font-size: 14px;
+    font-weight: 500;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.adminButton:hover {
+    background-color: #e2e6ea;
+}
+
+.footer {
     text-align: center;
+    margin-top: 16px;
 }
 
-.alertSuccess {
-    background-color: #0070f3;
-    color: #fff;
+.loginLink {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
-.alertError {
-    background-color: #ff4444;
-    color: #fff;
-}
-
-@media (max-width: 480px) {
-    .signupContainer {
-        margin: 20px auto;
-        padding: 20px;
-    }
-
-    .title {
-        font-size: 20px;
-    }
-
-    .input,
-    .select,
-    .button {
-        font-size: 16px;
-    }
+.loginLink:hover {
+    color: #0056b3;
 }

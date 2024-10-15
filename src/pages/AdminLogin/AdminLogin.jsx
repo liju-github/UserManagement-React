@@ -19,6 +19,9 @@ const AdminLogin = () => {
             .then(() => {
                 toast.success("Admin Login Successful", {
                     position: "top-right",
+                    style: {
+                        marginTop: '50px',
+                    },
                 });
                 navigate("/admin/dashboard");
             })

@@ -17,6 +17,12 @@
     
 }
 
+.errorText {
+    color: red;
+    font-size: 0.85em;
+    margin-top: 5px;
+}
+
 .formContainer {
     width: 100%;
     max-width: 420px;

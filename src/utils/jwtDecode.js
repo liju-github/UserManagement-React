@@ -1,14 +1,26 @@
 import {jwtDecode} from 'jwt-decode';
 
+
 export const getRoleFromToken = (token) => {
-    if (!token) return null;
+    if (!token) return { role: null, isExpired: true };
 
     try {
-        const decoded = jwtDecode(token);
-        return decoded.role || null;
+        const decoded = jwtDecode(token); 
+
+        
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        
+        if (decoded.exp < currentTime) {
+            return { role: null, isExpired: true }; 
+        }
+
+        
+        return { role: decoded.role || null, isExpired: false }; 
     } catch (error) {
+        
         localStorage.removeItem('token');
         console.error('Invalid token:', error);
-        return null;
+        return { role: null, isExpired: true };
     }
 };

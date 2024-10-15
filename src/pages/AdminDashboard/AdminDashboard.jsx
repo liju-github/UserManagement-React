@@ -1,14 +1,19 @@
-import React from 'react'
-import LogoutButton from '../../components/LogoutButton/LogoutButton'
-import UserList from '../../components/UserList/UserList'
+import React from 'react';
+import LogoutButton from '../../components/LogoutButton/LogoutButton';
+import UserList from '../../components/UserList/UserList';
+import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   return (
-      <div>
-      <LogoutButton></LogoutButton>
-      <UserList></UserList>
+    <div className="dashboardContainer">
+      <div className="header">
+        <LogoutButton className="logoutButton" />
+      </div>
+      <div className="userListContainer">
+        <UserList />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;

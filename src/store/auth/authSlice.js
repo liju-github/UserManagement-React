@@ -54,6 +54,8 @@ export const uploadProfilePicture = createAsyncThunk(
 
         try {
             const cloudinaryUrl = "https://api.cloudinary.com/v1_1/dcfoqhrxb/upload";
+
+            // Send the file to Cloudinary
             const response = await fetch(cloudinaryUrl, { method: 'POST', body: formData });
 
             if (!response.ok) {
@@ -64,17 +66,30 @@ export const uploadProfilePicture = createAsyncThunk(
             const data = await response.json();
             const imageUrl = data.secure_url;
             const token = localStorage.getItem('token');
-            await axios.post(`${API_USER_URL}/upload-profile-picture`,
+
+            // Send the image URL to the backend
+            const backendResponse = await axios.post(
+                `${API_USER_URL}/upload-profile-picture`,
                 { image_url: imageUrl },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            return await thunkAPI.dispatch(fetchUserProfile()).unwrap();
+            if (backendResponse.status !== 200) {
+                throw new Error('Failed to update profile picture in the backend.');
+            }
+
+            // Optionally dispatch fetchUserProfile to refresh user data
+            await thunkAPI.dispatch(fetchUserProfile()).unwrap();
+
+            // Return a success message or some data
+            return { success: true }; // Return success status
         } catch (error) {
-            return thunkAPI.rejectWithValue('Profile picture upload failed.');
+            return thunkAPI.rejectWithValue(error.message || 'Profile picture upload failed.');
         }
     }
 );
+
+
 
 // Admin Authentication Thunks
 export const loginAdmin = createAsyncThunk(
@@ -171,10 +186,14 @@ const userAuthSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.token = null;
+            localStorage.removeItem('refresh_token');
             localStorage.removeItem('token');
         },
         setUser: (state, action) => {
             state.user = action.payload;
+        },
+        removeError: (state, action) => {
+            state.error = null;
         }
     },
     extraReducers: (builder) => {
@@ -188,6 +207,7 @@ const userAuthSlice = createSlice({
                 state.user = action.payload.user;
                 state.token = action.payload.token;
                 localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('refresh_token', action.payload.refresh_token);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
@@ -223,7 +243,12 @@ const adminAuthSlice = createSlice({
             state.admin = null;
             state.token = null;
             localStorage.removeItem('token');
+            localStorage.removeItem('refresh_token');
+
         },
+        removeError: (state) => {
+            state.error = null;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -307,7 +332,7 @@ const adminCrudSlice = createSlice({
             .addCase(fetchUserProfileList.fulfilled, (state, action) => {
                 const modifiedUsers = action.payload.map(user => ({
                     ...user,
-                    gender: user.gender.toUpperCase(),  
+                    gender: user.gender.toUpperCase(),
                 }));
 
                 state.users = modifiedUsers;
@@ -350,7 +375,7 @@ const userCrudSlice = createSlice({
 
 
 // Exports
-export const { logout } = userAuthSlice.actions;
+export const { logout, removeError } = userAuthSlice.actions;
 export const { logoutAdmin } = adminAuthSlice.actions;
 export const { setUser } = userCrudSlice.actions;
 

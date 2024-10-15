@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './ProfileCard.module.css';
 import ProfilePictureUpload from '../ProfilePictureUpload/ProfilePictureUpload';
+import defaultImage from "../../assets/images/mario-working.gif"
 
 const ProfileCard = ({ user }) => {
     return (
@@ -8,7 +9,7 @@ const ProfileCard = ({ user }) => {
             <div className={styles.image}>
                 <div className={styles.imagePreview}>
                     <img
-                        src={user.image_url || 'default-avatar.png'}
+                        src={user.image_url || defaultImage}
                         alt={user.name}
                         className={styles.profilePicture}
                     />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styles from './UserUpdate.module.css';
 import { API_USER_URL } from '../../constants';
 import toast from 'react-hot-toast';
@@ -14,6 +15,8 @@ const UserUpdate = ({ user, onClose, onUpdate }) => {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate()
 
 
     const validateForm = () => {
@@ -53,6 +56,7 @@ const UserUpdate = ({ user, onClose, onUpdate }) => {
                     position: "top-center"
                 });
                 onUpdate();
+                navigate("/user/home")
             } else {
                 toast.error("Failed to update profile.", {
                     position: "top-center"

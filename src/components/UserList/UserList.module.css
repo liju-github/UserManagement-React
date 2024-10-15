@@ -200,3 +200,27 @@
 .pageButton:hover:not(:disabled) {
     background-color: #f1f1f1;
 }
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.cancelButton,
+.confirmDeleteButton {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancelButton {
+    background-color: #ccc;
+}
+
+.confirmDeleteButton {
+    background-color: #ff4d4f;
+    color: white;
+}

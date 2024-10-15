@@ -24,20 +24,29 @@ const ProfilePictureUpload = () => {
         if (!file) return;
 
         try {
-            await dispatch(uploadProfilePicture(file)).unwrap();
-            toast.success('Profile picture uploaded successfully!', {
-                position:"top-center"
-            })
+            
+            const result = await dispatch(uploadProfilePicture(file)).unwrap();
 
-            setFile(null);
-            fileInputRef.current.value = ''; 
-        } catch (error) {
-            toast.error('Profile picture upload failed!', {
+            
+            if (result.success) {
+                toast.success('Profile picture uploaded successfully!', {
+                    position: "top-center"
+                });
+                {
+                    // setFile(null);
+                    // fileInputRef.current.value = ''; 
+                }
+            }
+        } catch (err) {
+            
+            toast.error(`Profile picture upload failed`, {
                 position: "top-center"
-            })
-
+            });
         }
     };
+
+
+
 
     return (
         <div className={styles.uploadContainer}>

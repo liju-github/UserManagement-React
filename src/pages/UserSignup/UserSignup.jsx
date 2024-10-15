@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signupUser } from '../../store/auth/authSlice';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 import styles from './UserSignup.module.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,33 +28,48 @@ const Signup = () => {
     }
   }, [navigate]);
 
-  const validateForm = () => {
-    const errors = {};
+  const validateField = (name, value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!formData.name.trim()) errors.name = 'Name is required';
-    if (!formData.email.trim()) errors.email = 'Email is required';
-    if (!emailRegex.test(formData.email.trim())) errors.email = 'Invalid email format';
-    if (!formData.age) errors.age = 'Age is required';
-    if (formData.age < 1) errors.age = 'Age must be a positive number';
-    if (!formData.gender) errors.gender = 'Gender is required';
-    if (!formData.address.trim()) errors.address = 'Address is required';
-    if (!formData.phoneNumber.trim()) errors.phoneNumber = 'Phone Number is required';
-    if (!formData.password.trim()) errors.password = 'Password is required';
-    if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords do not match';
-
-    return errors;
+    switch (name) {
+      case 'name':
+        return value.trim() ? '' : 'Name is required';
+      case 'email':
+        return !value.trim() ? 'Email is required' :
+          !emailRegex.test(value.trim()) ? 'Invalid email format' : '';
+      case 'age':
+        return !value ? 'Age is required' :
+          value < 1 ? 'Age must be a positive number' : '';
+      case 'gender':
+        return value ? '' : 'Gender is required';
+      case 'address':
+        return value.trim() ? '' : 'Address is required';
+      case 'phoneNumber':
+        return value.trim() ? '' : 'Phone Number is required';
+      case 'password':
+        return value.trim() ? '' : 'Password is required';
+      case 'confirmPassword':
+        return value === formData.password ? '' : 'Passwords do not match';
+      default:
+        return '';
+    }
   };
 
-
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setValidationErrors({});
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    const error = validateField(name, value);
+    setValidationErrors(prev => ({ ...prev, [name]: error }));
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
-    const errors = validateForm();
+    const errors = Object.keys(formData).reduce((acc, key) => {
+      const error = validateField(key, formData[key]);
+      if (error) acc[key] = error;
+      return acc;
+    }, {});
+
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       return;
@@ -78,6 +92,7 @@ const Signup = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        navigate('/login');
       })
       .catch((err) => {
         toast.error(err || 'Signup failed. Please try again.', {
@@ -92,47 +107,73 @@ const Signup = () => {
   };
 
   return (
-    <>
-      <button onClick={() => window.location.href = '/admin/login'}>Admin Login</button>
-      <button onClick={() => window.location.href = '/login'}>Login</button>
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.formContainer}>
+          <h2 className={styles.title}>Sign Up</h2>
+          <form onSubmit={handleSignup} className={styles.form}>
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+              {validationErrors.name && <p className={styles.errorText}>{validationErrors.name}</p>}
+            </div>
 
-    <div className={styles.signupContainer}>
-      <h2 className={styles.title}>Sign Up</h2>
-      <form onSubmit={handleSignup} className={styles.form}>
-        <input className={styles.input} type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-        {validationErrors.name && <p className={styles.errorMessage}>{validationErrors.name}</p>}
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+              {validationErrors.email && <p className={styles.errorText}>{validationErrors.email}</p>}
+            </div>
 
-        <input className={styles.input} type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        {validationErrors.email && <p className={styles.errorMessage}>{validationErrors.email}</p>}
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} min="1" required />
+              {validationErrors.age && <p className={styles.errorText}>{validationErrors.age}</p>}
+            </div>
 
-        <input className={styles.input} type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} min="1" required />
-        {validationErrors.age && <p className={styles.errorMessage}>{validationErrors.age}</p>}
+            <div className={styles.formGroup}>
+              <select className={styles.input} name="gender" value={formData.gender} onChange={handleChange} required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              {validationErrors.gender && <p className={styles.errorText}>{validationErrors.gender}</p>}
+            </div>
 
-        <select className={styles.select} name="gender" value={formData.gender} onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-        {validationErrors.gender && <p className={styles.errorMessage}>{validationErrors.gender}</p>}
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
+              {validationErrors.address && <p className={styles.errorText}>{validationErrors.address}</p>}
+            </div>
 
-        <input className={styles.input} type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
-        {validationErrors.address && <p className={styles.errorMessage}>{validationErrors.address}</p>}
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="tel" name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={handleChange} required />
+              {validationErrors.phoneNumber && <p className={styles.errorText}>{validationErrors.phoneNumber}</p>}
+            </div>
 
-        <input className={styles.input} type="number" name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={handleChange} required />
-        {validationErrors.phoneNumber && <p className={styles.errorMessage}>{validationErrors.phoneNumber}</p>}
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+              {validationErrors.password && <p className={styles.errorText}>{validationErrors.password}</p>}
+            </div>
 
-        <input className={styles.input} type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-        {validationErrors.password && <p className={styles.errorMessage}>{validationErrors.password}</p>}
+            <div className={styles.formGroup}>
+              <input className={styles.input} type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
+              {validationErrors.confirmPassword && <p className={styles.errorText}>{validationErrors.confirmPassword}</p>}
+            </div>
 
-        <input className={styles.input} type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
-        {validationErrors.confirmPassword && <p className={styles.errorMessage}>{validationErrors.confirmPassword}</p>}
-
-        <button className={styles.button} type="submit" disabled={loading}>
-          {loading ? 'Signing up...' : 'Sign Up'}
-        </button>
-      </form>
-      <ToastContainer />
-    </div></>
+            <button className={styles.button} type="submit" disabled={loading || Object.values(validationErrors).some(error => error !== '')}>
+              {loading ? 'Signing up...' : 'Sign Up'}
+            </button>
+          </form>
+          <div className={styles.footer}>
+            <p>
+              Already have an account?{' '}
+              <span className={styles.loginLink} onClick={() => navigate('/login')}>
+                Log in
+              </span>
+            </p>
+          </div>
+          <button className={styles.adminButton} onClick={() => navigate('/admin/login')}>
+            Admin Login
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
