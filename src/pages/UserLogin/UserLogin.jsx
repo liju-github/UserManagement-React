@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../store/auth/authSlice';
+import { loginUser } from '../../store/slices/slice';
 import { useNavigate } from 'react-router-dom';
 import styles from './UserLogin.module.css';
 import toast from 'react-hot-toast';

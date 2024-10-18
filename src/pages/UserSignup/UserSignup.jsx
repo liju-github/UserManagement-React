@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signupUser } from '../../store/auth/authSlice';
+import { signupUser } from '../../store/slices/slice';
 import toast from 'react-hot-toast';
 import styles from './UserSignup.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ const Signup = () => {
       navigate('/');
     }
   }, [navigate]);
+  
 
   const validateField = (name, value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserProfileList, deleteUser, blockUser, unblockUser, signupUser } from '../../store/auth/authSlice';
+import { fetchUserProfileList, deleteUser, blockUser, unblockUser, signupUser } from '../../store/slices/slice';
+import { getRandomAvatarURL } from "../../constants";
 import UserUpdate from '../../components/UserUpdate/UserUpdate';
 import UserForm from '../../components/UserCreateForm/UserCreateForm';
 import styles from './UserList.module.css';
@@ -29,6 +30,18 @@ const UserList = () => {
         } catch (err) {
             console.error('Failed to fetch user profiles:', err);
         }
+    };
+
+    // Retrieve image from localStorage or generate a new one
+    const getAvatarUrl = (user) => {
+        const storedAvatar = localStorage.getItem(`avatar-${user.id}`);
+        if (storedAvatar) {
+            return storedAvatar;
+        }
+
+        const avatarUrl = user.image_url ? user.image_url : getRandomAvatarURL();
+        localStorage.setItem(`avatar-${user.id}`, avatarUrl);
+        return avatarUrl;
     };
 
     const handleEdit = (user) => {
@@ -117,10 +130,12 @@ const UserList = () => {
             <table className={styles.table}>
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Age</th>
                         <th>Gender</th>
+                        <th>Address</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -128,10 +143,12 @@ const UserList = () => {
                 <tbody>
                     {currentUsers.map((user) => (
                         <tr key={user.id}>
+                            <td><img src={getAvatarUrl(user)} alt="profile image" /></td>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
                             <td>{user.age}</td>
                             <td>{user.gender}</td>
+                            <td>{user.address}</td>
                             <td>{user.is_blocked ? 'Blocked' : 'Active'}</td>
                             <td>
                                 <button

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { getRoleFromToken } from '../utils/jwtDecode';  // Assuming this function decodes JWT
 import axios from 'axios';
-import { API_USER_URL } from '../constants';
+import { API_AUTH_URL } from '../constants';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +37,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
                 // If token is missing or expired, try to refresh it
                 if (refreshToken) {
-                    const response = await axios.get(`${API_USER_URL}/refresh`,  {
+                    const response = await axios.get(`${API_AUTH_URL}/refresh`, {
                         headers: {
                             Authorization: `Bearer ${refreshToken}`,
                         },

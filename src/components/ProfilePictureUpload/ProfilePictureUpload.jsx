@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadProfilePicture } from '../../store/auth/authSlice';
+import { uploadProfilePicture } from '../../store/slices/slice';
 import styles from './ProfilePictureUpload.module.css';
 import toast from 'react-hot-toast';
 

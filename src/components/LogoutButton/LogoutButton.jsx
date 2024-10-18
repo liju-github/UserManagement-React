@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout,removeError } from '../../store/auth/authSlice';
+import { logout,removeError } from '../../store/slices/slice';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '../ConfirmatonModal/ConfirmationModal'; 
 

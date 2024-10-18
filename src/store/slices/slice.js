@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_AUTH_URL, API_USER_URL, API_ADMIN_URL } from '../../constants';
+import { API_AUTH_URL, API_USER_URL, API_ADMIN_URL, getRandomAvatarURL } from '../../constants';
 
 // Async Thunks
 // User Authentication Thunks
@@ -20,8 +20,9 @@ export const signupUser = createAsyncThunk(
     'auth/signupUser',
     async ({ name, email, age, gender, address, phoneNumber, password }, thunkAPI) => {
         try {
+
             const response = await axios.post(`${API_AUTH_URL}/signup`, {
-                name, email, age: Number(age), gender, address, phoneNumber: Number(phoneNumber), password,
+                name, email, age: Number(age), gender, address, phoneNumber: Number(phoneNumber), password, image_url: getRandomAvatarURL()
             });
             return response.data;
         } catch (error) {
@@ -261,6 +262,7 @@ const adminAuthSlice = createSlice({
                 state.admin = action.payload.admin;
                 state.token = action.payload.token;
                 localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('refresh_token', action.payload.refresh_token);
             })
             .addCase(loginAdmin.rejected, (state, action) => {
                 state.loading = false;
@@ -384,5 +386,3 @@ export const adminAuthReducer = adminAuthSlice.reducer;
 export const adminCrudReducer = adminCrudSlice.reducer;
 export const userCrudReducer = userCrudSlice.reducer;
 
-const authReducers = { userAuth: userAuthReducer, adminAuth: adminAuthReducer };
-export default authReducers;

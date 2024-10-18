@@ -4,7 +4,7 @@ import LogoutButton from '../../components/LogoutButton/LogoutButton';
 import ProfileCard from '../../components/ProfileCard/ProfileCard';
 import UserUpdate from '../../components/UserUpdate/UserUpdate';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserProfile } from '../../store/auth/authSlice';
+import { fetchUserProfile } from '../../store/slices/slice';
 import styles from './UserHome.module.css';
 
 const Home = () => {

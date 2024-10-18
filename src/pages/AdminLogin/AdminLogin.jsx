@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginAdmin } from '../../store/auth/authSlice';
+import { loginAdmin } from '../../store/slices/slice';
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminLogin.module.css';
 import toast from 'react-hot-toast';
@@ -26,7 +26,7 @@ const AdminLogin = () => {
                 navigate("/admin/dashboard");
             })
             .catch((err) => {
-                let errorMessage = "Admin Login Failed";
+                let errorMessage = "Admin Login Failed, Invalid Credentials";
                 if (err.response && err.response.status === 401) {
                     errorMessage = "Incorrect email or password";
                 } else if (err.message === "Network Error") {
